@@ -1,36 +1,20 @@
 <?php
 
-	session_start();
+// This sends a persistent cookie that lasts a day.
+session_start([
+    'cookie_lifetime' => 86400,
+]);
 
-	require_once("../lib/config.php");
-    require_once("../lib/db.php");
-    require_once("../lib/func.php");
+// Requires the autoloader for composer
+require_once( dirname( __DIR__ ) . '/vendor/autoload.php' );
 
-	// Redirect to login page if user not logged in.
-	if (!isset($_SESSION['userID'])) {
-        include("../pages/login.php");
-		exit;
-	}
+// Set constant ABSPATH to project root directory
+define( 'ABSPATH', dirname( __DIR__ ) );
 
-	// Redirect ot 404 page if the query parameter 'page' is not set.
-	if (!isset($_GET['page'])) {
-        include("../pages/404.php");
-		exit;
-	}
+// Load the env variables from the .env file in the project root directory
+(Dotenv\Dotenv::createImmutable( dirname( __DIR__ ) ) )->load();
 
-	$requested_page = $_GET['page'];
+(new App\Libs\Log())->getLogger()->info('App started');
 
-	switch ($requested_page) {
-		case 'home':
-			include("../pages/home.php");
-			break;
-		case 'error':
-			include("../pages/error.php");
-			break;
-		case 'login':
-			include("../pages/login.php");
-			break;
-        default:
-			include("../pages/404.php");
-			break;
-	}
+// send the response to the browser
+(new App\Libs\Route)->dispatch();
