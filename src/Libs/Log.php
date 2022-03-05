@@ -7,7 +7,7 @@ use Monolog\Handler\StreamHandler;
 
 class Log {
 
-	private $logger;
+	private Logger $logger;
 
 	public function __construct() 
 	{
@@ -21,8 +21,8 @@ class Log {
 		$this->logger->pushHandler($handler);
 	}
 
-	public function getLogger()
-	{
+	public function getLogger(): Logger
+    {
 		return $this->logger;
 	}
 

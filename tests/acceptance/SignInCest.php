@@ -9,7 +9,7 @@ class SignInCest
     }
 
     // tests
-    public function tryToTest(AcceptanceTester $I)
+    public function signInPageShouldExist(AcceptanceTester $I)
     {
         $I->amOnPage(self::SIGNIN_PATH);
     }

@@ -2,19 +2,18 @@
 
 namespace App\Libs;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use League\Route\Router;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Laminas\Diactoros\ServerRequestFactory;
 use App\Controller\HomeController;
 use App\Middleware\AuthMiddleware;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Route\Router;
 
 class Route {
 
-	private $router;
-	private $request;
-	private $emitter;
+	private Router $router;
+	private ServerRequest $request;
+	private SapiEmitter $emitter;
 
 	public function __construct()
 	{
@@ -24,7 +23,6 @@ class Route {
 
 		$this->router = new Router;
 		$this->emitter = new SapiEmitter;
-
 	}
 
 	private function mapRoutes()
@@ -33,11 +31,6 @@ class Route {
 			->middleware(new AuthMiddleware);
 		$this->router->get('/security/signin', 
 			'App\Controller\SecurityController::getSignIn');
-	}
-
-	public function getRouter()
-	{
-		return $this->router;
 	}
 
 	public function dispatch()

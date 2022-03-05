@@ -2,15 +2,14 @@
 
 namespace App\Libs;
 
+use Exception;
+use Monolog\Logger;
+use PDO;
+
 class DB {
 
-    private $db_host;
-    private $db_name;
-    private $db_pass;
-    private $db_port;
-    private $db_user;
-    private PDO $pdo;
-    private Log $logger;
+    private ?PDO $pdo;
+    private Logger $logger;
 
     public function __construct()
     {
@@ -25,7 +24,7 @@ class DB {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
 
-        $dsn .= "mysql:host={$db_host};";
+        $dsn = "mysql:host={$db_host};";
         $dsn .= "port={$db_port};dbname={$db_name};";
 
         // Initialize logger
@@ -36,11 +35,16 @@ class DB {
             // Initialize PDO connection
             $this->pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
-            $this->logger->info('PDO connection established');
+            $this->logger->info('database connection was established');
 
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $this->pdo = null;
         }
+    }
+
+    public function getPDO(): ?PDO
+    {
+        return $this->pdo;
     }
 }

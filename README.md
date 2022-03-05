@@ -22,7 +22,7 @@ npm install
 
 Start selenium
 ```bash
-npx selenium-standalone install && npx selenium-standalone start
+npx selenium-standalone start
 ```
 
 Start app

@@ -13,8 +13,8 @@ class SecurityController {
 	/**
      * Controller.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
      */
     public function getSignIn(ServerRequestInterface $request): ResponseInterface
     {
